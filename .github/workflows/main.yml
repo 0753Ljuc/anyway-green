@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "10 10 * * *"
+
+jobs:
+  anywaygreen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Run or not?
+        id: schedule
+        run: |
+          random_number=$((RANDOM % 10))
+          echo $random_number
+          if [ "$random_number" -eq 0 ]; then
+            echo "::set-output name=result::continue"
+          fi
+
+      - name: Anyway green
+        if: steps.schedule.outputs.result == 'continue'
+        run: |
+          git config --local user.email "limequery@163.com"
+          git config --local user.name "0753Ljuc"
+          git commit --allow-empty -m "anyway green anything but girlfriend"
+          git push
