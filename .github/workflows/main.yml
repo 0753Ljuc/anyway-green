@@ -5,7 +5,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: "10 10 * * *"
+    - cron: "10 10 * * 5"
+    - cron: "10 10 * * 1"
 
 jobs:
   anywaygreen:
@@ -19,7 +20,7 @@ jobs:
         run: |
           random_number=$((RANDOM % 10))
           echo $random_number
-          if [ "$random_number" -eq 0 ]; then
+          if [ "$random_number" -gt 3 ]; then
             echo "::set-output name=result::continue"
           fi
 
@@ -30,3 +31,7 @@ jobs:
           git config --local user.name "0753Ljuc"
           git commit --allow-empty -m "anyway green anything but girlfriend"
           git push
+
+      - name: Cancel
+        if: steps.schedule.outputs.result != 'continue'
+        run: exit 78
