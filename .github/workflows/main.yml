@@ -5,8 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "10 10 * * 5"
-    - cron: "10 10 * * 1"
+    - cron: "10 10 1 * *"
 
 jobs:
   anywaygreen:
@@ -20,7 +19,7 @@ jobs:
         run: |
           random_number=$((RANDOM % 10))
           echo $random_number
-          if [ "$random_number" -gt 3 ]; then
+          if [ "$random_number" -gt 2 ]; then
             echo "::set-output name=result::continue"
           fi
 
@@ -29,7 +28,7 @@ jobs:
         run: |
           git config --local user.email "limequery@163.com"
           git config --local user.name "0753Ljuc"
-          git commit --allow-empty -m "anyway green anything but girlfriend"
+          git commit --allow-empty -m "Green anything but girlfriend"
           git push
 
       - name: Cancel
